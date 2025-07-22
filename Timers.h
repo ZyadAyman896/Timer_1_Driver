@@ -56,7 +56,7 @@ int main(void) {
 #define TCNT1    (*(volatile u16*)0x4C)  /* 16-bit access	*/
 #define OCR1A    (*(volatile u16*)0x4A)  /* 16-bit access	*/
 
-/*****************************   TCCR1A – Timer/Counter1 Control Register A   *****************************/  
+/*****************************   TCCR1A â€“ Timer/Counter1 Control Register A   *****************************/  
 #define WGM10    0
 #define WGM11    1
 #define FOC1B    2
@@ -66,7 +66,7 @@ int main(void) {
 #define COM1A0   6
 #define COM1A1   7
 
-/*****************************    TCCR1B – Timer/Counter1 Control Register B   *****************************/
+/*****************************    TCCR1B â€“ Timer/Counter1 Control Register B   *****************************/
 #define CS10     0
 #define CS11     1
 #define CS12     2
@@ -76,7 +76,7 @@ int main(void) {
 #define ICNC1    7
 
 
-/*****************************   TIMSK – Timer Interrupt Mask Register   *****************************/
+/*****************************   TIMSK â€“ Timer Interrupt Mask Register   *****************************/
 
 #define TOIE1    2   /* Timer1 Overflow Interrupt Enable				*/
 #define OCIE1A   4   /* Timer1 Output Compare A Match Interrupt Enable	*/
@@ -147,25 +147,65 @@ typedef struct
 /*                        Functions Prototypes                          */
 /************************************************************************/
 
+/**
+ * @brief Initializes Timer1 based on the provided configuration.
+ * 
+ * @param Config Pointer to a structure that holds Timer1 mode, compare settings, and interrupt settings.
+ */
 void TIMER1_vInit(const Timer1_Configurations* Config);
 
 
+/**
+ * @brief Starts Timer1 with the selected prescaler value.
+ * 
+ * @param Prescaler_Value One of the predefined prescaler options (e.g., no clock, clk/8, clk/64, etc.)
+ */
 void TIMER1_vStart(Timer1_Prescalers Prescaler_Value);
 
+
+/**
+ * @brief Stops Timer1 by disconnecting its clock source.
+ */
 void TIMER1_vStop(void);
 
 
-
+/**
+ * @brief Sets the TCNT1 register value directly in Normal Mode.
+ * 
+ * @param value The 16-bit value to preload into Timer1's counter register (TCNT1).
+ */
 void TIMER1_vSetValueNormalMode(u16 value);
+
+
+/**
+ * @brief Gets the current count value of Timer1.
+ * 
+ * @return u16 The current value of Timer1 (TCNT1).
+ */
 u16 TIMER1_u16GetValue(void);
 
 
-
+/**
+ * @brief Sets the OCR1A register value used for CTC (Clear Timer on Compare Match) mode.
+ * 
+ * @param value The 16-bit compare value to be loaded into OCR1A.
+ */
 void TIMER1_vSetValueCompareCTC(u16 value);
 
 
-
+/**
+ * @brief Sets the callback function that will be executed on Timer1 overflow interrupt.
+ * 
+ * @param callback Pointer to the user-defined function to be called on overflow.
+ */
 void TIMER1_vSetOverflowCallback(void (*callback)(void));
+
+
+/**
+ * @brief Sets the callback function that will be executed on Timer1 Compare Match (CTC) interrupt.
+ * 
+ * @param callback Pointer to the user-defined function to be called on CTC match.
+ */
 void TIMER1_vSetCompareCTCCallback(void (*callback)(void));
 
 
